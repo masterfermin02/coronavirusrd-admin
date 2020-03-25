@@ -17,6 +17,9 @@
                       <mdb-input v-model.trim="provincesStat.investigations" label="Investigacion" icon="vials" type="text"/>
                       <mdb-input v-model.trim="provincesStat.recoverers" label="recuperados" icon="walking" type="text"/>
                       <mdb-input v-model.trim="provincesStat.deaths" label="Muertes" icon="skull-crossbones" type="text"/>
+                      <mdb-input v-model.trim="provincesStat.male" label="Home por ciento" icon="male"  type="text"/>
+                      <mdb-input v-model.trim="provincesStat.female" label="Mujer por ciento" icon="female" type="text"/>
+                      <mdb-input v-model.trim="provincesStat.lastUpdate" label="Ultima actualizacion" icon="clock" type="text"/>
                       <mdb-btn class="float-right" @click="updateProvincesStat" >Actualizar</mdb-btn>
                       <mdb-tbl responsive hover>
                           <thead class="blue lighten-4">
