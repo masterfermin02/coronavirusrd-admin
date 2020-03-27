@@ -53,7 +53,8 @@
 <script>
 import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbCardHeader, mdbTbl, mdbInput, mdbBtn } from 'mdbvue'
 import { mapState }  from 'vuex'
-const fb = require('@/firebaseConfig.js')
+import provinceServices from '@/services/provinceServices'
+
 export default {
 
     name: 'Dashboard',
@@ -68,14 +69,14 @@ export default {
         mdbBtn
     },
     computed: {
-      ...mapState(['provinces', 'investigation', 'provincesStat'])
+      ...mapState(['provinces', 'provincesStat'])
     },
     methods: {
         updateProvinces() {
-            fb.provinces.set(this.provinces);
+            provinceServices.updateProvinces(this.provinces)
         },
         updateProvincesStat() {
-            fb.provincesStat.set(this.provincesStat);
+            provinceServices.updateProvincesStat(this.provincesStat)
         }
     }
 }

@@ -29,7 +29,12 @@ const getProvincesStat = () => {
         })
 }
 
+const updateProvincesStat = provincesStat => fb.provincesStat.set(provincesStat)
+const updateProvinces = provinces => fb.provinces.set(provinces)
+
 export default {
     getProvinces,
-    getProvincesStat
+    getProvincesStat,
+    updateProvincesStat,
+    updateProvinces
 }
