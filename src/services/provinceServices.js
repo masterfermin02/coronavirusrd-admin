@@ -1,4 +1,3 @@
-
 const fb = require('@/firebaseConfig.js')
 
 const mapPath = (paths, data) => {
@@ -16,11 +15,21 @@ const defaultData = {
     style: "fill: rgb(224, 101, 101); stroke: rgb(247, 247, 247); stroke-width: 1.29247px;"
 };
 
-export default {
-
-    getFromFisebase(cb) {
+const getProvinces = () => {
+    return new Promise((resolve, reject) => {
         fb.provinces.on('value', (snapshot) => {
-            cb(mapPath(snapshot.val() || [], defaultData));
-        });
-    }
+            resolve(mapPath(snapshot.val() || [], defaultData));
+        },reject)
+    });
+};
+
+const getProvincesStat = () => {
+    return new Promise( (resolve, reject) => {
+                fb.provincesStat.on('value', snapshot => resolve(snapshot.val() || {}), reject)
+        })
+}
+
+export default {
+    getProvinces,
+    getProvincesStat
 }

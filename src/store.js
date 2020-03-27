@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import provincePath from './services/provincePath.js'
+import provinceServices from './services/provinceServices'
 const fb = require('@/firebaseConfig.js')
 
 Vue.use(Vuex)
@@ -9,11 +9,9 @@ Vue.use(Vuex)
 fb.auth.onAuthStateChanged(user => {
   if (user) {
     store.commit('setCurrentUser', user)
-    provincePath.getFromFisebase(provinces => store.commit('setProvinces', provinces) )
-    fb.provincesStat.on('value', snapshot => store.commit('setProvincesStat', snapshot.val() || {}))
-
+    provinceServices.getProvinces().then(provinces => store.commit('setProvinces', provinces) )
+    provinceServices.getProvincesStat().then( provincesStat => store.commit('setProvincesStat', provincesStat))
   }
-
 })
 
 export const store = new Vuex.Store({

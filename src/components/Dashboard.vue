@@ -34,7 +34,7 @@
                           <tbody v-if="provinces.length">
                               <tr v-for="(province, i) in provinces" :key="i" >
                                   <th scope="row">{{ i + 1}}</th>
-                                  <td>{{ province.title }}</td>
+                                  <td><mdb-input v-model.trim="province.title" label="Casos" icon="hospital" type="text"/></td>
                                   <td><mdb-input v-model.trim="province.cases" label="Casos" icon="hospital" type="text"/></td>
                                   <td><mdb-input v-model.trim="province.deaths" label="Muetes" icon="skull-crossbones" type="text"/></td>
                                   <td><mdb-btn @click="updateProvinces" >Actualizar</mdb-btn></td>
