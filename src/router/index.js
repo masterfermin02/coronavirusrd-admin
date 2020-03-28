@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import UpdateCollaborator from '@/components/UpdateCollaborator'
 import Dashboard from '@/components/Dashboard'
 import BadGateway from '@/components/BadGateway'
 import Login from '@/components/Login'
@@ -20,6 +21,15 @@ const router =  new Router({
       component: Dashboard,
       props: { page: 1 },
       alias: '/',
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/Collaborators',
+      name: 'Collaborators',
+      component: UpdateCollaborator,
+      props: { page: 4 },
       meta: {
         requiresAuth: true
       }
