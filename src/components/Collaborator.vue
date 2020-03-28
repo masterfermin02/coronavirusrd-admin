@@ -5,9 +5,6 @@
                 <mdb-card>
                     <mdb-card-header>Update colaboradores</mdb-card-header>
                     <mdb-card-body>
-                        <div>
-                            <mdb-btn class="float-right" @click="addCollaborator" >Add Colaborador</mdb-btn>
-                        </div>
                         <mdb-input v-model.trim="collaborator.name"  label="Nombre" type="text"/>
                         <mdb-input v-model.trim="collaborator.role"  label="Role" type="text"/>
                         <mdb-input v-model.trim="collaborator.description"  label="description" type="textarea" />
@@ -91,17 +88,13 @@
                 );
             },
             updateCollaborator() {
-                const _collaborator = {...this.collaborator}
-                _collaborator.links = this.collaborator.links.filter(link => link.name)
+                this.collaborator.links = this.collaborator.links.filter(link => link.name)
                 if(this.imageData) {
-                    _collaborator.picture = this.imageName
+                    this.collaborator.picture = this.imageName
                 }
-                _collaborator.id = this.id
+                this.collaborator.id = this.id
 
-                this.$emit('updateCollaborator',_collaborator)
-            },
-            addCollaborator() {
-                this.$emit('addCollaborator')
+                this.$emit('updateCollaborator',this.collaborator)
             }
         },
         props: ['id', 'collaborator'],
@@ -113,11 +106,11 @@
             }
         },
         mounted() {
-            if(!storageRef && this.collaborator.picture) {
+            if(this.collaborator.picture) {
                 storageRef = folder.child(`${this.collaborator.picture}`)
                 storageRef.getDownloadURL().then((url)=>{
                     this.picture =url;
-                });
+                }).catch(err => console.log(err));
             }
         }
     }

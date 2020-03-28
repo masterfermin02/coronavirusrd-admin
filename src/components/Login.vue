@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import { mdbInput, mdbBtn, mdbCard, mdbCardBody, mdbRow, mdbCol  } from 'mdbvue';
+    import { mdbInput, mdbBtn, mdbCard, mdbCardBody, mdbRow, mdbCol, mdbAlert  } from 'mdbvue';
     const fb = require('@/firebaseConfig.js')
 
     export default {
@@ -47,7 +47,8 @@
             mdbCard,
             mdbCardBody,
             mdbRow,
-            mdbCol
+            mdbCol,
+            mdbAlert
         },
         data() {
             return {
@@ -55,7 +56,8 @@
                     email: '',
                     password: ''
                 },
-                errorMsg: ''
+                errorMsg: '',
+                performingRequest: false
             }
         },
         methods: {

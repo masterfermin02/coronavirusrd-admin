@@ -6,20 +6,24 @@
                 :id="i"
                 :collaborator="collaborator"
                 @updateCollaborator="updateCollaborator"
-                @addCollaborator="addCollaborator"
         />
+        <div>
+            <mdb-btn class="float-right" @click="addCollaborator" >Add Colaborador</mdb-btn>
+        </div>
     </div>
 </template>
 
 <script>
     import { mapState }  from 'vuex'
+    import { mdbBtn } from 'mdbvue'
     import Collaborator from './Collaborator'
     import provinceServices from '@/services/provinceServices'
 
     export default {
         name: "UpdateCollaborator",
         components: {
-            Collaborator
+            Collaborator,
+            mdbBtn
         },
         computed: {
             ...mapState(['collaborators'])
@@ -27,7 +31,7 @@
         methods: {
             updateCollaborator(collaborator) {
                 let index = this.collaborators.findIndex(
-                    item => item.id = collaborator.id
+                    item => item.id === collaborator.id
                 )
                 this.collaborators.splice(index, 1, collaborator)
                 provinceServices.updateCollaborator(this.collaborators)
