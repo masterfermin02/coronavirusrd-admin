@@ -15,26 +15,29 @@ const defaultData = {
     style: "fill: rgb(224, 101, 101); stroke: rgb(247, 247, 247); stroke-width: 1.29247px;"
 };
 
-const getProvinces = () => {
-    return new Promise((resolve, reject) => {
-        fb.provinces.on('value', (snapshot) => {
-            resolve(mapPath(snapshot.val() || [], defaultData));
-        },reject)
-    });
-};
+const getProvincesOberserve = (cb) => {
+    fb.provinces.on('value', (snapshot) => {
+        cb(mapPath(snapshot.val() || [], defaultData));
+    })
+}
 
-const getProvincesStat = () => {
-    return new Promise( (resolve, reject) => {
-                fb.provincesStat.on('value', snapshot => resolve(snapshot.val() || {}), reject)
-        })
+const getProvincesStatObserve = (cb) => {
+    fb.provincesStat.on('value', snapshot => cb(snapshot.val() || {}))
+}
+
+const getCollaboratorsObserve = (cb) => {
+    fb.collaborators.on('value', snapshot => cb(snapshot.val() || [{ links: [{}]}]))
 }
 
 const updateProvincesStat = provincesStat => fb.provincesStat.set(provincesStat)
 const updateProvinces = provinces => fb.provinces.set(provinces)
+const updateCollaborator = collaborators => fb.collaborators.set(collaborators)
 
 export default {
-    getProvinces,
-    getProvincesStat,
     updateProvincesStat,
-    updateProvinces
+    updateProvinces,
+    getProvincesOberserve,
+    getProvincesStatObserve,
+    updateCollaborator,
+    getCollaboratorsObserve
 }
