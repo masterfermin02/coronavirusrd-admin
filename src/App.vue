@@ -44,7 +44,7 @@
             Dashboard
             </mdb-list-group-item>
         </router-link>
-        <router-link to="/collaborators" @click.native="activeItem = 1">
+        <router-link :to="{ name: 'Collaborators'}" @click.native="activeItem = 4">
           <mdb-list-group-item
                   :action="true"
                   :class="activeItem === 4 && 'active'"
