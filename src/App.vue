@@ -62,7 +62,7 @@
                   :class="activeItem === 5 && 'active'"
           >
             <mdb-icon
-                    icon="chart-pie"
+                    icon="chart-line"
                     class="mr-3"
             />
             Estadistica
