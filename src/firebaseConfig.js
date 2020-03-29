@@ -10,6 +10,7 @@ firebase.initializeApp(config)
 const database = firebase.database()
 const auth = firebase.auth()
 const currentUser = auth.currentUser
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
 // Create a root reference
 const storageRef = firebase.storage().ref()
 
@@ -25,5 +26,6 @@ export {
     provinces,
     provincesStat,
     collaboratorImageStore,
-    collaborators
+    collaborators,
+    googleAuthProvider
 }

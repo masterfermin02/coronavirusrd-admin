@@ -12,7 +12,8 @@ export const store = new Vuex.Store({
         provinces: [],
         currentUser: null,
         provincesStat: {},
-        collaborators: []
+        collaborators: [],
+        token: null
     },
 
     mutations: {
@@ -27,10 +28,21 @@ export const store = new Vuex.Store({
         },
         setCollaborators(state, val) {
             state.collaborators = val
+        },
+        setToken(state, val) {
+            state.token = val
         }
     },
 
-    actions: {},
+    actions: {
+        clearData({ commit }) {
+            commit('setProvinces', [])
+            commit('setCurrentUser', null)
+            commit('setProvincesStat', {})
+            commit('setCollaborators', [])
+            commit('setToken', null)
+        }
+    },
 
     plugins: [firebaseStore]
 

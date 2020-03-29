@@ -57,7 +57,8 @@
                     password: ''
                 },
                 errorMsg: '',
-                performingRequest: false
+                performingRequest: false,
+                errorCode: ''
             }
         },
         methods: {
@@ -70,6 +71,25 @@
                 }).catch(err => {
                     this.performingRequest = false
                     this.errorMsg = err.message
+                })
+            },
+            loginWithGoogle() {
+                fb.auth.signInWithPopup(fb.googleAuthProvider).then(result => {
+                    // This gives you a Google Access Token. You can use it to access the Google API.
+                    // The signed-in user info.
+                    this.$store.commit('setCurrentUser', result.user)
+                    this.$store.commit('setToken', result.credential.accessToken)
+                    this.$router.push('/dashboard')
+
+                }).catch( error => {
+                    // Handle Errors here.
+                    console.log(error)
+                    this.errorCode = error.code;
+                    this.errorMsg = error.message;
+                    // The email of the user's account used.
+                    this.email = error.email;
+                    // The firebase.auth.AuthCredential type that was used.
+                    this.credential = error.credential;
                 })
             }
         }
