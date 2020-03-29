@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import UpdateCollaborator from '@/components/UpdateCollaborator'
 import Dashboard from '@/components/Dashboard'
 import BadGateway from '@/components/BadGateway'
-import Login from '@/components/Login'
+import Miscelaneous from '@/components/Miscelaneous'
 import UpdateCaseByDate from '@/components/UpdateCaseByDate'
 import firebase from 'firebase'
 
@@ -27,6 +27,18 @@ const router =  new Router({
       }
     },
     {
+      path: '/miscelaneous',
+      name: 'Miscelaneous',
+      component: Miscelaneous,
+      props: { page: 2 },
+    },
+    {
+      path: '/404',
+      name: 'BadGateway',
+      props: { page: 3 },
+      component: BadGateway
+    },
+    {
       path: '/Collaborators',
       name: 'Collaborators',
       component: UpdateCollaborator,
@@ -43,18 +55,6 @@ const router =  new Router({
       meta: {
         requiresAuth: true
       }
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login,
-      props: { page: 2 },
-    },
-    {
-      path: '/404',
-      name: 'BadGateway',
-      props: { page: 3 },
-      component: BadGateway
     }
   ]
 })
