@@ -31,6 +31,9 @@ const router =  new Router({
       name: 'Miscelaneous',
       component: Miscelaneous,
       props: { page: 2 },
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/404',

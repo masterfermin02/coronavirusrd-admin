@@ -14,8 +14,8 @@
                     <mdb-card-body>
                         <mdb-input v-model.trim="provincesStat.avrgAge" label="Edad Promedio" icon="user-clock" type="text"/>
                         <mdb-input v-model.trim="provincesStat.minAge" label="Edad Minima" icon="user-minus" type="text"/>
-                        <mdb-input v-model.trim="provinceStat.maxAge" label="Edad Maxima" icon="user-plus" type="text"/>
-                        <mdb-btn class="float-right" @click="updateAgeRange()" >Guardar</mdb-btn>
+                        <mdb-input v-model.trim="provincesStat.maxAge" label="Edad Maxima" icon="user-plus" type="text"/>
+                        <mdb-btn class="float-right" @click="updateAgeRange" >Guardar</mdb-btn>
                     </mdb-card-body>
                 </mdb-card>
             </mdb-col>
@@ -32,9 +32,7 @@
         name: "Miscelanous",
         methods: {
            updateAgeRange(){
-                if(this.provincesStat.avrgAge >= 0 && this.provincesStat.mingAge >=0 && this.provincesStat.maxAge >=0 ){
-                    provinceServices.updateProvinceStat(this.provincesStat);
-                }   
+               provinceServices.updateProvincesStat(this.provincesStat); 
            }
         },
         computed: {
