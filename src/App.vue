@@ -10,16 +10,10 @@
           <mdb-nav-item to="/dashboard" waves-fixed @click.native="active = 1"
             >Inicio</mdb-nav-item
           >
-          <mdb-nav-item to="/#" waves-fixed @click.native="logout"
-          >loguot</mdb-nav-item
-          >
         </mdb-navbar-nav>
         <mdb-navbar-nav right>
-          <mdb-nav-item href="https://www.instagram.com/covidrd/" waves-fixed
-            ><mdb-icon fab class="text-black" icon="instagram"
-          /></mdb-nav-item>
-          <mdb-nav-item href="https://twitter.com/coronavirusrd4" waves-fixed
-            ><mdb-icon fab icon="twitter"
+          <mdb-nav-item @click.native="logout"  waves-fixed
+            ><mdb-icon icon="sign-out-alt"
           /></mdb-nav-item>
         </mdb-navbar-nav>
       </mdb-navbar-toggler>
@@ -41,7 +35,7 @@
               icon="chart-pie"
               class="mr-3"
             />
-            Dashboard
+            Estado Actual Nacional
             </mdb-list-group-item>
         </router-link>
         <router-link :to="{ name: 'Collaborators'}" @click.native="activeItem = 4">
@@ -65,7 +59,19 @@
                     icon="chart-line"
                     class="mr-3"
             />
-            Estadistica
+            Evolucion de casos Nacionales
+          </mdb-list-group-item>
+        </router-link>
+        <router-link :to="{ name: 'Miscelaneous'}" @click.native="activeItem = 3">
+          <mdb-list-group-item
+                  :action="true"
+                  :class="activeItem === 3 && 'active'"
+          >
+            <mdb-icon
+                    icon="columns"
+                    class="mr-3"
+            />
+            Miscelanous
           </mdb-list-group-item>
         </router-link>
       </mdb-list-group>

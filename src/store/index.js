@@ -32,6 +32,7 @@ export const store = new Vuex.Store({
         setToken(state, val) {
             state.token = val
         }
+        
     },
 
     actions: {
