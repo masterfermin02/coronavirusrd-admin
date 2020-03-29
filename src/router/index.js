@@ -4,6 +4,7 @@ import UpdateCollaborator from '@/components/UpdateCollaborator'
 import Dashboard from '@/components/Dashboard'
 import BadGateway from '@/components/BadGateway'
 import Login from '@/components/Login'
+import UpdateCaseByDate from '@/components/UpdateCaseByDate'
 import firebase from 'firebase'
 
 Vue.use(Router);
@@ -30,6 +31,15 @@ const router =  new Router({
       name: 'Collaborators',
       component: UpdateCollaborator,
       props: { page: 4 },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/stats',
+      name: 'stats',
+      component: UpdateCaseByDate,
+      props: { page: 5},
       meta: {
         requiresAuth: true
       }

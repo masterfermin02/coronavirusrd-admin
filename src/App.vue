@@ -50,13 +50,24 @@
                   :class="activeItem === 4 && 'active'"
           >
             <mdb-icon
-                    icon="users"
+                    icon="user-friends"
                     class="mr-3"
             />
             Colaboradores
           </mdb-list-group-item>
         </router-link>
-
+        <router-link :to="{ name: 'stats'}" @click.native="activeItem = 5">
+          <mdb-list-group-item
+                  :action="true"
+                  :class="activeItem === 5 && 'active'"
+          >
+            <mdb-icon
+                    icon="chart-pie"
+                    class="mr-3"
+            />
+            Estadistica
+          </mdb-list-group-item>
+        </router-link>
       </mdb-list-group>
     </div>
     <!-- /Sidebar  -->
