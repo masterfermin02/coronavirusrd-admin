@@ -27,7 +27,7 @@ export const store = new Vuex.Store({
         },
         setCollaborators(state, val) {
             state.collaborators = val
-        },
+        }
         
     },
 

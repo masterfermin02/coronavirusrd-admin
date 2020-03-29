@@ -17,14 +17,12 @@ const storageRef = firebase.storage().ref()
 const provinces = database.ref('provinces/')
 const provincesStat = database.ref('provincesStat/')
 const collaborators = database.ref('collaborators/')
-const age = database.ref('ageRange/')
 const collaboratorImageStore = storageRef.child('collaborators')
 
 export {
     auth,
     currentUser,
     provinces,
-    age,
     provincesStat,
     collaboratorImageStore,
     collaborators
