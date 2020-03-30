@@ -14,7 +14,7 @@
                   <mdb-card-header>Detalle por provincias</mdb-card-header>
                   <mdb-card-body>
                       <mdb-input v-model.trim="provincesStat.cases" label="Infectados" icon="hospital" type="text"/>
-                      <mdb-input v-model.trim="provincesStat.investigations" label="Investigacion" icon="vials" type="text"/>
+                      <mdb-input v-model.trim="provincesStat.discarted" label="Descartados" icon="vials" type="text"/>
                       <mdb-input v-model.trim="provincesStat.recoverers" label="recuperados" icon="walking" type="text"/>
                       <mdb-input v-model.trim="provincesStat.deaths" label="Muertes" icon="skull-crossbones" type="text"/>
                       <mdb-input v-model.trim="provincesStat.male" label="Home por ciento" icon="male"  type="text"/>
