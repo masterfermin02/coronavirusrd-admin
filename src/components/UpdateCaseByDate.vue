@@ -31,12 +31,12 @@
                             <tbody v-if="provincesStat.stats && provincesStat.stats.length">
                             <tr v-for="(item, i) in  provincesStat.stats" :key="i" >
                                 <th scope="row">{{ i + 1}}</th>
-                                <td>{{item.date}}</td>
-                                <td>{{item.infects}}</td>
-                                <td>{{item.deaths}}</td>
-                                <td>{{item.recoverers}}</td>
+                                <td><mdb-input v-model.trim="item.date" label="Date" type="text"/></td>
+                                <td><mdb-input v-model.trim="item.infects" label="Infectados" type="text"/></td>
+                                <td><mdb-input v-model.trim="item.deaths" label="Muertos" type="text"/></td>
+                                <td><mdb-input v-model.trim="item.recoverers" label="Recuperados" type="text"/></td>
                                 <td>
-                                    <mdb-btn @click="updateCase(i)" ><mdb-icon icon="edit" /></mdb-btn>
+                                    <mdb-btn @click="update" ><mdb-icon icon="edit" /></mdb-btn>
                                     <mdb-btn @click="removeCase(i)" ><mdb-icon icon="trash" /></mdb-btn>
                                 </td>
                             </tr>
@@ -82,9 +82,10 @@
                 this.provincesStat.stats.splice(index,1)
                 provinceServices.updateProvincesStat(this.provincesStat)
             },
-            updateCase(index) {
-                this.currentIndex = index
-                this.stat = this.provincesStat.stats.find( (stat, i) => index === i)
+            update() {
+                provinceServices.updateProvincesStat(this.provincesStat)
+                this.stat = {}
+                this.currentIndex = null
             }
         },
         computed: {
