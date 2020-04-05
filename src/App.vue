@@ -153,7 +153,7 @@ export default {
     logout() {
       fb.auth.signOut().then(() => {
         this.$store.dispatch('clearData')
-        this.$router.push('/login')
+        this.$router.push('/#login')
       }).catch(err => {
         this.err = err
       })
@@ -163,7 +163,9 @@ export default {
     ...mapState(['currentUser'])
   },
   beforeMount() {
-    this.activeItem = this.$route.matched[0].props.default.page;
+    if (this.$route.matched[0]) {
+      this.activeItem = this.$route.matched[0].props.default.page;
+    }
   },
   mixins: [waves]
 };

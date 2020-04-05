@@ -6,7 +6,6 @@ export default function firebaseSocketPlugin (socket) {
 
         socket.auth.onAuthStateChanged(user => {
             if (user) {
-                console.log(user.customClaim)
                 store.commit('setCurrentUser', user)
                 provinceServices.getProvincesOberserve(provinces => store.commit('setProvinces', provinces) )
                 provinceServices.getProvincesStatObserve( provincesStat => store.commit('setProvincesStat', provincesStat))
