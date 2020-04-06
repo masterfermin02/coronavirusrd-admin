@@ -1,7 +1,7 @@
 # Coronavirus RD admin
 this app is the admin panel of the [coronavirus-rd](https://www.coronavirus-rd.com/) app
 
-## reuire 
+## require 
 - nodejs
 
 ## How to setup this project
@@ -14,6 +14,7 @@ Instalar las dependencias
 Run the services and happy development
 - `npm run start`
 
-## Thanks
-- [theme](https://mdbootstrap.com/docs/vue/)
+## Collaborators
+
+- thanks to the [theme](https://mdbootstrap.com/docs/vue/)
 
