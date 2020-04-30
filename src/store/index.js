@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import firebaseSocketPlugin from "../sockets/firebaseSocketPlugin";
-const fb = require('@/firebaseConfig.js')
+const fb = require('@/firebaseConfig.js');
 
 Vue.use(Vuex)
 
 const firebaseStore = firebaseSocketPlugin(fb)
+const defaultProvince = 'DO-1';
 
 export const store = new Vuex.Store({
     state: {
@@ -13,7 +14,8 @@ export const store = new Vuex.Store({
         currentUser: null,
         provincesStat: {},
         collaborators: [],
-        token: null
+        token: null,
+        selectProvince: defaultProvince
     },
 
     mutations: {
@@ -31,8 +33,11 @@ export const store = new Vuex.Store({
         },
         setToken(state, val) {
             state.token = val
+        },
+        setSelectProvince(state, val) {
+            state.selectProvince = val;
         }
-        
+
     },
 
     actions: {
@@ -42,6 +47,10 @@ export const store = new Vuex.Store({
             commit('setProvincesStat', {})
             commit('setCollaborators', [])
             commit('setToken', null)
+        },
+        setSelectProvince({commit, state}, newValue) {
+            commit('setSelectProvince', newValue)
+            return state.selectProvince
         }
     },
 

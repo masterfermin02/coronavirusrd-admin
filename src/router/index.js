@@ -7,6 +7,7 @@ import Miscelaneous from '@/components/Miscelaneous'
 import UpdateCaseByDate from '@/components/UpdateCaseByDate'
 import Login from '@/components/Login'
 import firebase from 'firebase'
+import CaseByProvince from "../components/CaseByProvince";
 
 Vue.use(Router);
 
@@ -45,6 +46,15 @@ const router =  new Router({
       name: 'stats',
       component: UpdateCaseByDate,
       props: { page: 5},
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/provinces',
+      name: 'provinces',
+      component: CaseByProvince,
+      props: { page: 6},
       meta: {
         requiresAuth: true
       }

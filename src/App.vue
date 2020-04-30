@@ -38,6 +38,18 @@
             Estado Actual Nacional
             </mdb-list-group-item>
         </router-link>
+        <router-link to="/provinces" @click.native="activeItem = 6">
+          <mdb-list-group-item
+                  :action="true"
+                  :class="activeItem === 6 && 'active'"
+          >
+            <mdb-icon
+                    icon="chart-pie"
+                    class="mr-3"
+            />
+            Estado Actual Por Provincia
+          </mdb-list-group-item>
+        </router-link>
         <router-link :to="{ name: 'Collaborators'}" @click.native="activeItem = 4">
           <mdb-list-group-item
                   :action="true"
