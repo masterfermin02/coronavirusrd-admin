@@ -22,23 +22,16 @@
                       <mdb-input v-model.trim="provincesStat.lastUpdate" label="Ultima actualizacion" icon="clock" type="text"/>
                       <mdb-btn class="float-right" @click="updateProvincesStat" >Actualizar</mdb-btn>
                       <mdb-tbl responsive hover>
-                          <thead class="blue lighten-4">
-                              <tr>
-                                  <th>#</th>
-                                  <th>Provincia</th>
-                                  <th>Infectados</th>
-                                  <th>Muertes</th>
-                                  <th>Actions</th>
-                              </tr>
-                          </thead>
-                          <tbody v-if="provinces.length">
-                              <tr v-for="(province, i) in provinces" :key="i" >
+                          <tbody v-if="provincesList.length">
+                          <draggable v-model="provincesList">
+                              <tr v-for="(province, i) in provincesList" :key="province.id" >
                                   <th scope="row">{{ i + 1}}</th>
-                                  <td><mdb-input v-model.trim="province.title" label="Casos" icon="hospital" type="text"/></td>
+                                  <td><mdb-input v-model.trim="province.title" label="Provincia" icon="hospital" type="text"/></td>
                                   <td><mdb-input v-model.trim="province.cases" label="Casos" icon="hospital" type="text"/></td>
                                   <td><mdb-input v-model.trim="province.deaths" label="Muetes" icon="skull-crossbones" type="text"/></td>
                                   <td><mdb-btn @click="updateProvinces" >Actualizar</mdb-btn></td>
                               </tr>
+                          </draggable>
                           </tbody>
                       </mdb-tbl>
                       <mdb-btn @click="updateProvinces" class="float-right">Update provincias</mdb-btn>
@@ -54,6 +47,7 @@
 import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbCardHeader, mdbTbl, mdbInput, mdbBtn } from 'mdbvue'
 import { mapState }  from 'vuex'
 import provinceServices from '@/services/provinceServices'
+import draggable from 'vuedraggable'
 
 export default {
 
@@ -66,10 +60,19 @@ export default {
         mdbCardHeader,
         mdbTbl,
         mdbInput,
-        mdbBtn
+        mdbBtn,
+        draggable
     },
     computed: {
-      ...mapState(['provinces', 'provincesStat'])
+      ...mapState(['provinces', 'provincesStat']),
+        provincesList: {
+          get() {
+              return this.provinces;
+          },
+          set(value) {
+              provinceServices.updateProvinces(value)
+          }
+        }
     },
     methods: {
         updateProvinces() {

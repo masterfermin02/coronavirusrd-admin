@@ -2,23 +2,32 @@ import firebase from 'firebase'
 import 'firebase/firestore'
 
 // firebase init goes here
-import { config } from './firebaseEnv';
+const config = {
+    apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
+    authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
+    databaseURL: process.env.VUE_APP_FIREBASE_BASEURL,
+    projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
+    storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_ID,
+    appId: process.env.VUE_APP_FIREBASE_APPID,
+    measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
+};
 
-firebase.initializeApp(config)
+firebase.initializeApp(config);
 
 // firebase utils
-const database = firebase.database()
-const auth = firebase.auth()
-const currentUser = auth.currentUser
-const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+const database = firebase.database();
+const auth = firebase.auth();
+const currentUser = auth.currentUser;
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 // Create a root reference
-const storageRef = firebase.storage().ref()
+const storageRef = firebase.storage().ref();
 
 // firebase collections
-const provinces = database.ref('provinces/')
-const provincesStat = database.ref('provincesStat/')
-const collaborators = database.ref('collaborators/')
-const collaboratorImageStore = storageRef.child('collaborators')
+const provinces = database.ref('provinces/');
+const provincesStat = database.ref('provincesStat/');
+const collaborators = database.ref('collaborators/');
+const collaboratorImageStore = storageRef.child('collaborators');
 
 export {
     auth,
