@@ -29,6 +29,7 @@
                                   <td><mdb-input v-model.trim="province.title" label="Provincia" icon="hospital" type="text"/></td>
                                   <td><mdb-input v-model.trim="province.cases" label="Casos" icon="hospital" type="text"/></td>
                                   <td><mdb-input v-model.trim="province.deaths" label="Muetes" icon="skull-crossbones" type="text"/></td>
+                                  <td><mdb-input v-model.trim="province.recovereds" label="Recuperados" icon="skull-crossbones" type="text"/></td>
                                   <td><mdb-btn @click="updateProvinces" >Actualizar</mdb-btn></td>
                               </tr>
                           </draggable>
