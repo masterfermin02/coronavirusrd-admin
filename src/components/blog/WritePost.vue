@@ -1,21 +1,19 @@
 <template>
 
     <section>
-        <mdb-card class="mb-4">
-            <mdb-card-body class="d-sm-flex justify-content-between">
-                <h4 class="mb-sm-0 pt-2">
-                    Add new post
-                </h4>
-            </mdb-card-body>
-        </mdb-card>
         <mdb-row>
             <mdb-col md="12" class="mb-4">
                 <mdb-card>
-                    <mdb-card-header>Update colaboradores</mdb-card-header>
+                    <mdb-card-header>Arcticulo</mdb-card-header>
                     <mdb-card-body>
-                        <mdb-input v-model.trim="collaborator.name"  label="Nombre" type="text"/>
-                        <mdb-input v-model.trim="collaborator.role"  label="Role" type="text"/>
-                        <mdb-input v-model.trim="collaborator.description"  label="description" type="textarea" />
+                        <mdb-input v-model.trim="title"  label="Titulo" type="text"/>
+                        <mdb-input
+                                type="textarea"
+                                outline
+                                inputClass="z-depth-1 p-3"
+                                v-model.trim="content"
+                                placeholder="shadow textarea"
+                        />
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroupFileAddon01">Upload an image</span>
@@ -29,23 +27,16 @@
                             <p>Progress: {{uploadValue.toFixed()+"%"}}
                                 <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
                         </div>
-                        <img class="preview" :src="picture">
+                        <img class="preview" :src="imgUrl">
                         <div v-if="imageData!=null">
                             <mdb-btn  @click="onUpload" >Upload</mdb-btn>
                         </div>
-                        <div>Redes sociales:</div>
-                        <div v-for="(link, i) in collaborator.links" :key="i" >
-                            <mdb-input v-model.trim="link.name" label="name" type="text" />
-                            <mdb-input v-model.trim="link.icon" label="icon" type="text" />
-                            <mdb-input v-model.trim="link.url" label="url" type="text" />
-                        </div>
-                        <div>
-                            <mdb-btn class="float-right" @click="collaborator.links.push({})" >Agregar red</mdb-btn>
-                        </div>
-                        <div class="clearfix"></div>
                         <hr />
                         <div>
-                            <mdb-btn class="float-right" @click="updateCollaborator" >Actualizar</mdb-btn>
+                            Autor : {{ getUser.displayName }}
+                        </div>
+                        <div>
+                            <mdb-btn class="float-right" @click="updatePost" >Actualizar</mdb-btn>
                         </div>
 
                     </mdb-card-body>
@@ -57,11 +48,14 @@
 
 <script>
     import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbCardHeader, mdbInput, mdbBtn } from 'mdbvue'
-    const fb = require('@/firebaseConfig.js')
-    const folder = fb.collaboratorImageStore
-    let storageRef = null
+    import { mapGetters, mapMutations } from 'vuex'
+    import * as types from '@/vuex/blog/mutation_types'
+    const fb = require('@/firebaseConfig.js');
+    const folder = fb.postImageStore;
+    let storageRef = null;
+
     export default {
-        name: "Collaborator",
+        name: "WritePost",
         components: {
             mdbRow,
             mdbCol,
@@ -72,54 +66,152 @@
             mdbBtn
         },
         computed: {
-          imageName() {
-              return this.id + '-' + this.imageData.name
-          }
+            ...mapGetters(['getKey', 'getTitle', 'getContent', 'getImgUrl', 'getWriter', 'getUser']),
+            title: {
+                get () {
+                    return this.getTitle
+                },
+                set (value) {
+                    this.updateTitle(value)
+                }
+            },
+            content: {
+                get () {
+                    return this.getContent
+                },
+                set (value) {
+                    this.updateContent(value)
+                }
+            },
+            key: {
+                get () {
+                    return this.getKey;
+                },
+                set (value) {
+                    this.updateKey(value);
+                }
+            },
+            imgUrl: {
+                get () {
+                    return this.getImgUrl
+                },
+                set (value) {
+                    this.setImgUrl(value);
+                }
+
+            },
+            imageName() {
+              return this.key + '-' + this.imageData.name
+            }
         },
         methods: {
+            ...mapMutations({
+                updateTitle: types.SET_TITLE,
+                updateContent: types.SET_CONTENT,
+                updateKey: types.SET_KEY,
+                initArticleData: types.INIT_ARTICLE_DATA,
+                setDate: types.SET_DATE,
+                setWriter: types.SET_WRITER,
+                setImgUrl: types.SET_IMG_URL
+            }),
             previewImage(event) {
                 this.uploadValue=0;
-                this.picture=null;
                 this.imageData = event.target.files[0];
             },
             onUpload(){
-                this.picture=null;
                 storageRef = folder.child(`${this.imageName}`).put(this.imageData);
                 storageRef.on(`state_changed`,snapshot=>{
                         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
                     }, error=>{console.log(error.message)},
                     ()=>{this.uploadValue=100;
                         storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                            this.picture =url;
+                            this.imgUrl = url;
                         });
                     }
                 );
             },
-            updateCollaborator() {
-                this.collaborator.links = this.collaborator.links.filter(link => link.name)
-                if(this.imageData) {
-                    this.collaborator.picture = this.imageName
-                }
-                this.collaborator.id = this.id
-
-                this.$emit('updateCollaborator',this.collaborator)
+            updatePost() {
+                !this.updating
+                    ? this.addPost()
+                    : fb
+                        .posts.doc(this.key).set({
+                            title: this.title,
+                            content: this.content,
+                            slug: this.title.toLowerCase()
+                                .replace(/ /g,'-')
+                                .replace(/[^\w-]+/g,''),
+                            date: {
+                                seconds: new Date().getTime(),
+                                nanoseconds: 0
+                            },
+                            userId: this.getUser.uid,
+                            imgUrl: this.imgUrl || this.getImgUrl,
+                            show: true
+                        })
+                        .then(() => this.$router.push('/posts'))
+                        .catch((error) => {
+                            console.error(`Error adding document: ${error}`)
+                        })
+            },
+            addPost() {
+                fb
+                    .posts.add({
+                    title: this.title,
+                    content: this.content,
+                    slug: this.title.toLowerCase()
+                        .replace(/ /g,'-')
+                        .replace(/[^\w-]+/g,''),
+                    date: {
+                        seconds: new Date().getTime(),
+                        nanoseconds: 0
+                    },
+                    userId: this.getUser.uid,
+                    imgUrl: this.imgUrl || this.getImgUrl,
+                    show: true
+                })
+                    .then(() => this.$router.push('/posts'))
+                    .catch((error) => {
+                        console.error(`Error adding document: ${error}`)
+                    });
+            },
+            getPost () {
+                fb
+                    .posts
+                    .doc(this.$route.params.key)
+                    .get()
+                    .then(doc => {
+                        let post = doc.data();
+                        this.setKey(this.$route.params.key);
+                        this.setTitle(post.title);
+                        this.setContent(post.content);
+                        this.setDate(post.date.seconds);
+                        this.setWriter(post.writer);
+                        this.setImgUrl(post.imgUrl);
+                        this.updating = true;
+                    })
+                    .catch(error => {
+                        console.error(`getPost error: ${error}`)
+                    })
+            },
+            getNewPost() {
+                this.initArticleData();
+                this.key = new Date().getTime().toString();
+                this.updating = false
             }
         },
-        props: ['id', 'collaborator'],
         data() {
             return {
                 imageData: null,
-                picture: null,
-                uploadValue: 0
+                uploadValue: 0,
+                oldImgUrl: '',
+                updating: false
             }
         },
-        mounted() {
-            if(this.collaborator.picture) {
-                storageRef = folder.child(`${this.collaborator.picture}`)
-                storageRef.getDownloadURL().then((url)=>{
-                    this.picture =url;
-                }).catch(err => console.log(err));
-            }
+        created () {
+            this.$route.params.key
+                ? this.getPost()
+                : this.getNewPost();
+
         }
     }
 </script>

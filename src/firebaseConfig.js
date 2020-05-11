@@ -17,6 +17,7 @@ firebase.initializeApp(config);
 
 // firebase utils
 const database = firebase.database();
+const firestore = firebase.firestore();
 const auth = firebase.auth();
 const currentUser = auth.currentUser;
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
@@ -28,6 +29,9 @@ const provinces = database.ref('provinces/');
 const provincesStat = database.ref('provincesStat/');
 const collaborators = database.ref('collaborators/');
 const collaboratorImageStore = storageRef.child('collaborators');
+const postImageStore = storageRef.child('posts');
+const posts = firestore
+    .collection('Post');
 
 export {
     auth,
@@ -36,5 +40,7 @@ export {
     provincesStat,
     collaboratorImageStore,
     collaborators,
-    googleAuthProvider
+    googleAuthProvider,
+    postImageStore,
+    posts
 }

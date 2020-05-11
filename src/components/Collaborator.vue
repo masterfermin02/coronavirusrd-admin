@@ -1,17 +1,10 @@
 <template>
-    
+
     <section>
-        <mdb-card class="mb-4">
-            <mdb-card-body class="d-sm-flex justify-content-between">
-                <h4 class="mb-sm-0 pt-2">
-                    Agregar colaboradores
-                </h4>
-            </mdb-card-body>
-        </mdb-card>
         <mdb-row>
             <mdb-col md="12" class="mb-4">
                 <mdb-card>
-                    <mdb-card-header>Update colaboradores</mdb-card-header>
+                    <mdb-card-header>Colaborador: {{collaborator.name}}</mdb-card-header>
                     <mdb-card-body>
                         <mdb-input v-model.trim="collaborator.name"  label="Nombre" type="text"/>
                         <mdb-input v-model.trim="collaborator.role"  label="Role" type="text"/>

@@ -8,6 +8,8 @@ import UpdateCaseByDate from '@/components/UpdateCaseByDate'
 import Login from '@/components/Login'
 import firebase from 'firebase'
 import CaseByProvince from "../components/CaseByProvince";
+import PostList from "../components/blog/PostList";
+import WritePost from "../components/blog/WritePost";
 
 Vue.use(Router);
 
@@ -55,6 +57,24 @@ const router =  new Router({
       name: 'provinces',
       component: CaseByProvince,
       props: { page: 6},
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/posts',
+      name: 'posts',
+      component: PostList,
+      props: { page: 7 },
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/posts/create',
+      name: 'postCreate',
+      component: WritePost,
+      props: { page: 7 },
       meta: {
         requiresAuth: true
       }
