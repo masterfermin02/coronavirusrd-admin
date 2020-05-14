@@ -105,7 +105,7 @@
                     role: this.collaborator.role,
                     description: this.collaborator.description,
                     links: this.collaborator.links,
-                    pictureUrl: this.imageUrl,
+                    pictureUrl: this.imageUrl || this.collaborator.pictureUrl,
                 });
             }
         },
