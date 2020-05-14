@@ -22,7 +22,7 @@
                             <p>Progress: {{uploadValue.toFixed()+"%"}}
                                 <progress id="progress" :value="uploadValue" max="100" ></progress>  </p>
                         </div>
-                        <img class="preview" :src="picture">
+                        <img class="preview" :src="pictureUrl">
                         <div v-if="imageData!=null">
                             <mdb-btn  @click="onUpload" >Upload</mdb-btn>
                         </div>
@@ -67,51 +67,54 @@
         computed: {
           imageName() {
               return this.id + '-' + this.imageData.name
-          }
+          },
+            pictureUrl: {
+              get() {
+                  return this.collaborator.pictureUrl;
+              },
+                set(val) {
+                    this.imageUrl = val;
+                }
+            }
         },
         methods: {
             previewImage(event) {
-                this.uploadValue=0;
-                this.picture=null;
+                this.uploadValue = 0;
+                this.pictureUrl = null;
                 this.imageData = event.target.files[0];
             },
             onUpload(){
-                this.picture=null;
+                this.pictureUrl=null;
                 storageRef = folder.child(`${this.imageName}`).put(this.imageData);
                 storageRef.on(`state_changed`,snapshot=>{
                         this.uploadValue = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
                     }, error=>{console.log(error.message)},
                     ()=>{this.uploadValue=100;
                         storageRef.snapshot.ref.getDownloadURL().then((url)=>{
-                            this.picture =url;
+                            this.pictureUrl = url;
+                            this.updateCollaborator();
+                            this.imageData = null;
                         });
                     }
                 );
             },
             updateCollaborator() {
-                this.collaborator.links = this.collaborator.links.filter(link => link.name)
-                if(this.imageData) {
-                    this.collaborator.picture = this.imageName
-                }
-                this.collaborator.id = this.id
-
-                this.$emit('updateCollaborator',this.collaborator)
+                this.$emit('updateCollaborator', {
+                    id: this.id,
+                    name: this.collaborator.name,
+                    role: this.collaborator.role,
+                    description: this.collaborator.description,
+                    links: this.collaborator.links,
+                    pictureUrl: this.imageUrl,
+                });
             }
         },
         props: ['id', 'collaborator'],
         data() {
             return {
                 imageData: null,
-                picture: null,
-                uploadValue: 0
-            }
-        },
-        mounted() {
-            if(this.collaborator.picture) {
-                storageRef = folder.child(`${this.collaborator.picture}`)
-                storageRef.getDownloadURL().then((url)=>{
-                    this.picture =url;
-                }).catch(err => console.log(err));
+                uploadValue: 0,
+                imageUrl: ''
             }
         }
     }
