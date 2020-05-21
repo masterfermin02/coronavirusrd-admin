@@ -8,7 +8,7 @@ const fb = require('@/firebaseConfig.js');
 Vue.use(Vuex);
 
 const firebaseStore = firebaseSocketPlugin(fb);
-const defaultProvince = 'DO-1';
+const defaultProvince = 'Distrito Nacional';
 
 const state = {
     key: '',

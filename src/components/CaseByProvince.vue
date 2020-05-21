@@ -3,12 +3,12 @@
         <mdb-card class="mb-4">
             <mdb-card-body class="d-sm-flex justify-content-between ">
                 <p class="mb-6" >Seleccione la provincia que quiere introducir:</p>
-                <select class="browser-default custom-select" v-model="provinceId" >
+                <select class="browser-default custom-select" v-model="name" >
                     <option
                             v-for="(province, i) in provinces"
                             :key="i"
-                            :value="province.id"
-                    >{{ province.title }}</option>
+                            :value="province.name"
+                    >{{ province.name }}</option>
                 </select>
             </mdb-card-body>
         </mdb-card>
@@ -33,13 +33,13 @@
                                 <th>Actions</th>
                             </tr>
                             </thead>
-                            <tbody v-if="currentProvince && currentProvince.stats && currentProvince.stats.length">
-                            <tr v-for="(item, i) in  currentProvince.stats" :key="i" >
+                            <tbody v-if="currentProvince && currentProvince.cases && currentProvince.cases.length">
+                            <tr v-for="(item, i) in  currentProvince.cases" :key="i" >
                                 <th scope="row">{{ i + 1}}</th>
                                 <td><mdb-input v-model.trim="item.date" label="Date" type="text"/></td>
-                                <td><mdb-input v-model.trim="item.infects" label="Infectados" type="text"/></td>
-                                <td><mdb-input v-model.trim="item.deaths" label="Muertos" type="text"/></td>
-                                <td><mdb-input v-model.trim="item.recoverers" label="Recuperados" type="text"/></td>
+                                <td><mdb-input v-model.trim="item.total_cases" label="Infectados" type="text"/></td>
+                                <td><mdb-input v-model.trim="item.total_deaths" label="Muertos" type="text"/></td>
+                                <td><mdb-input v-model.trim="item.total_recovered" label="Recuperados" type="text"/></td>
                                 <td>
                                     <mdb-btn @click="update" ><mdb-icon icon="edit" /></mdb-btn>
                                     <mdb-btn @click="removeCase(i)" ><mdb-icon icon="trash" /></mdb-btn>
@@ -83,30 +83,30 @@
                     return
                 }
 
-                if(!this.provinces[this.currentIndex].stats) {
-                    this.provinces[this.currentIndex].stats = []
+                if(!this.provinces[this.currentIndex].cases) {
+                    this.provinces[this.currentIndex].cases = []
                 }
 
-                this.provinces[this.currentIndex].stats.push(this.stat);
+                this.provinces[this.currentIndex].cases.push(this.stat);
 
-                provinceServices.updateProvinces(this.provinces)
+                provinceServices.updateProvincesStat(this.provincesStat)
                 this.stat = {}
                 this.currentIndex = null
             },
             removeCase(index) {
                 this.provinces[this.currentIndex].stats.splice(index,1);
-                provinceServices.updateProvinces(this.provinces);
+                provinceServices.updateProvincesStat(this.provincesStat);
             },
             update() {
-                provinceServices.updateProvinces(this.provinces);
+                provinceServices.updateProvincesStat(this.provincesStat);
             },
-            byId(province) {
-                return province.id === this.provinceId;
+            byName(province) {
+                return province.name === this.name;
             }
         },
         computed: {
-            ...mapState(['selectProvince', 'provinces']),
-            provinceId: {
+            ...mapState(['selectProvince', 'provincesStat']),
+            name: {
                 get() {
                     return this.selectProvince;
                 },
@@ -114,11 +114,19 @@
                     return this.$store.dispatch('setSelectProvince', value);
                 }
             },
+            provinces: {
+                get() {
+                    if(this.provincesStat.province) {
+                        return this.provincesStat.province.provinces;
+                    }
+                    return [];
+                }
+            },
             currentProvince() {
-                return this.provinces.find(this.byId);
+                return this.provinces.find(this.byName);
             },
             currentIndex() {
-                return this.provinces.findIndex(this.byId)
+                return this.provinces.findIndex(this.byName)
             },
             addBtnLabel() {
                 return 'Agregar'
