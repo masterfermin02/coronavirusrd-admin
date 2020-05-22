@@ -18,9 +18,9 @@
                     <mdb-card-header>Actualizar casos por fecha</mdb-card-header>
                     <mdb-card-body>
                         <mdb-input v-model.trim="stat.date" label="Date" icon="clock" type="text"/>
-                        <mdb-input v-model.trim="stat.infects" label="Infectado" icon="hospital" type="text"/>
-                        <mdb-input v-model.trim="stat.deaths" label="Muertes" icon="skull-crossbones" type="text"/>
-                        <mdb-input v-model.trim="stat.recoverers" label="Recuperados" icon="walking" type="text"/>
+                        <mdb-input v-model.trim="stat.total_cases" label="Infectado" icon="hospital" type="text"/>
+                        <mdb-input v-model.trim="stat.total_deaths" label="Muertes" icon="skull-crossbones" type="text"/>
+                        <mdb-input v-model.trim="stat.total_recovered" label="Recuperados" icon="walking" type="text"/>
                         <mdb-btn class="float-right" @click="addCase" >{{ addBtnLabel }}</mdb-btn>
                         <mdb-tbl responsive hover>
                             <thead class="blue lighten-4">
@@ -89,9 +89,9 @@
 
                 this.provinces[this.currentIndex].cases.push(this.stat);
 
-                provinceServices.updateProvincesStat(this.provincesStat)
-                this.stat = {}
-                this.currentIndex = null
+                provinceServices.updateProvincesStat(this.provincesStat);
+                this.stat = {};
+                this.currentIndex = null;
             },
             removeCase(index) {
                 this.provinces[this.currentIndex].stats.splice(index,1);
