@@ -21,21 +21,6 @@
                       <mdb-input v-model.trim="provincesStat.female" label="Mujer por ciento" icon="female" type="text"/>
                       <mdb-input v-model.trim="provincesStat.lastUpdate" label="Ultima actualizacion" icon="clock" type="text"/>
                       <mdb-btn class="float-right" @click="updateProvincesStat" >Actualizar</mdb-btn>
-                      <mdb-tbl responsive hover>
-                          <tbody v-if="provincesList.length">
-                          <draggable v-model="provincesList">
-                              <tr v-for="(province, i) in provincesList" :key="province.id" >
-                                  <th scope="row">{{ i + 1}}</th>
-                                  <td><mdb-input v-model.trim="province.title" label="Provincia" icon="hospital" type="text"/></td>
-                                  <td><mdb-input v-model.trim="province.cases" label="Casos" icon="hospital" type="text"/></td>
-                                  <td><mdb-input v-model.trim="province.deaths" label="Muetes" icon="skull-crossbones" type="text"/></td>
-                                  <td><mdb-input v-model.trim="province.recovereds" label="Recuperados" icon="skull-crossbones" type="text"/></td>
-                                  <td><mdb-btn @click="updateProvinces" >Actualizar</mdb-btn></td>
-                              </tr>
-                          </draggable>
-                          </tbody>
-                      </mdb-tbl>
-                      <mdb-btn @click="updateProvinces" class="float-right">Update provincias</mdb-btn>
                   </mdb-card-body>
               </mdb-card>
           </mdb-col>
@@ -45,10 +30,9 @@
 </template>
 
 <script>
-import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbCardHeader, mdbTbl, mdbInput, mdbBtn } from 'mdbvue'
+import { mdbRow, mdbCol, mdbCard, mdbCardBody, mdbCardHeader, mdbInput, mdbBtn } from 'mdbvue'
 import { mapState }  from 'vuex'
 import provinceServices from '@/services/provinceServices'
-import draggable from 'vuedraggable'
 
 export default {
 
@@ -59,26 +43,13 @@ export default {
         mdbCard,
         mdbCardBody,
         mdbCardHeader,
-        mdbTbl,
         mdbInput,
-        mdbBtn,
-        draggable
+        mdbBtn
     },
     computed: {
-      ...mapState(['provinces', 'provincesStat']),
-        provincesList: {
-          get() {
-              return this.provinces;
-          },
-          set(value) {
-              provinceServices.updateProvinces(value)
-          }
-        }
+        ...mapState(['provincesStat'])
     },
     methods: {
-        updateProvinces() {
-            provinceServices.updateProvinces(this.provinces)
-        },
         updateProvincesStat() {
             provinceServices.updateProvincesStat(this.provincesStat)
         }
