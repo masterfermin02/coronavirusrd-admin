@@ -96,7 +96,7 @@
                 this.currentIndex = null;
             },
             removeCase(index) {
-                this.provinces[this.currentIndex].stats.splice(index,1);
+                this.provinces[this.currentIndex].cases.splice(index,1);
                 provinceServices.updateProvincesStat(this.provincesStat);
             },
             update() {
