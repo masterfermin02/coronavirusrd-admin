@@ -90,7 +90,9 @@
                 this.provinces[this.currentIndex].cases.push(this.stat);
 
                 provinceServices.updateProvincesStat(this.provincesStat);
-                this.stat = {};
+                this.stat = {
+                    date: this.stat.date
+                };
                 this.currentIndex = null;
             },
             removeCase(index) {
