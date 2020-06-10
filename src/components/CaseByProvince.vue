@@ -19,8 +19,8 @@
                     <mdb-card-body>
                         <mdb-input v-model.trim="stat.date" label="Date" icon="clock" type="text"/>
                         <mdb-input v-model.trim="stat.total_cases" label="Infectado" icon="hospital" type="text"/>
-                        <mdb-input v-model.trim="stat.total_deaths" label="Muertes" icon="skull-crossbones" type="text"/>
                         <mdb-input v-model.trim="stat.total_recovered" label="Recuperados" icon="walking" type="text"/>
+                        <mdb-input v-model.trim="stat.total_deaths" label="Muertes" icon="skull-crossbones" type="text"/>
                         <mdb-btn class="float-right" @click="addCase" >{{ addBtnLabel }}</mdb-btn>
                         <mdb-tbl responsive hover>
                             <thead class="blue lighten-4">
@@ -33,8 +33,8 @@
                                 <th>Actions</th>
                             </tr>
                             </thead>
-                            <tbody v-if="currentProvince && currentProvince.cases && currentProvince.cases.length">
-                            <tr v-for="(item, i) in  currentProvince.cases" :key="i" >
+                            <tbody v-if="cases">
+                            <tr v-for="(item, i) in cases" :key="i" >
                                 <th scope="row">{{ i + 1}}</th>
                                 <td><mdb-input v-model.trim="item.date" label="Date" type="text"/></td>
                                 <td><mdb-input v-model.trim="item.total_cases" label="Infectados" type="text"/></td>
@@ -124,11 +124,16 @@
                     return [];
                 }
             },
-            currentProvince() {
-                return this.provinces.find(this.byName);
-            },
             currentIndex() {
                 return this.provinces.findIndex(this.byName)
+            },
+            cases() {
+                const province = this.provinces.find(this.byName);
+                if (province) {
+                    return province.cases.sort((a, b) => b.total_cases - a.total_cases);
+                }
+
+                return [];
             },
             addBtnLabel() {
                 return 'Agregar'
