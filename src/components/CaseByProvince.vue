@@ -130,7 +130,7 @@
             cases() {
                 const province = this.provinces.find(this.byName);
                 if (province) {
-                    return province.cases.sort((a, b) => b.total_cases - a.total_cases);
+                    return province.cases.sort((a, b) => new Date(b.date) - new Date(a.date));
                 }
 
                 return [];
