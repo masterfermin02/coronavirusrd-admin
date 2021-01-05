@@ -9,7 +9,7 @@
     "start": "vue-cli-service serve --open --port 8082"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.4.4",
     "firebase": "^7.12.0",
     "mdbvue": "6.5.0",
